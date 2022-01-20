@@ -27,68 +27,13 @@ const req = require("express/lib/request");
 
 
 const dotenv =require("dotenv");
-const joi1 = require("joi");
+const  path  = require("path");
+const res = require("express/lib/response");
 const app = require("express")();
 // const port = 3000;
 app.use(express.json());
+app.use("/",require(path.join(__dirname,"routes/route.js")))
+app.use(express.static(path.join(__dirname,"public")))
 dotenv.config();
-
-const language = [
-  { id: 1, name: "c" },
-  { id: 2, name: "c++" },
-  { id: 3, name: "Javascript" },
-  { id: 4, name: "Python" },
-];
-
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
-
-app.get("/api", (req, res) => {
-  res.send(language);
-});
-
-app.post("/api/language", (req, res) => {
-  if (!req.body.name || req.body.name.length < 4) {
-    res.status(400).send("Bad request");
-    return;
-  }
-  const lang = {
-    id: language.length + 1,
-    name: req.body.name,
-  };
-  language.push(lang);
-  res.send(lang);
-});
-
-app.put("/api/language/:id", (req, res) => {
-  const lang = language.find((c) => c.id === parseInt(req.params.id));
-  if (!lang) res.status(404).send("language with given id  not found");
-  res.send(lang);
-
-  if (!req.body.name || req.body.name.length < 4) {
-    res.status(400).send("Bad request");
-    return;
-  }
-  lang.name =req.body.name;
-  res.send(course);
-});
-
-app.delete("/api/language/:id", (req, res) =>{
-    const lang = language.find((c) => c.id === parseInt(req.params.id));
-  if (!lang) res.status(404).send("language with given id  not found");
-  res.send(lang);
-  
-  const index =language.indexOf(lang);
-  language.splice(index,1);
-  res.send(course);
-})
-
-app.get("/api/language/:id", (req, res) => {
-  const lang = language.find((c) => c.id === parseInt(req.params.id));
-  if (!lang) res.status(404).send("language with given id  not found");
-  res.send(lang);
-});
-
 const port = process.env.PORT;
 app.listen(port, () => console.log(`listening on ${port}...`));
