@@ -1,63 +1,57 @@
 const express = require("express");
+const path = require("path")
 const router = express.Router();
+const { addemployee,getemployee,removeemployee,updateemployee}= require("../controller/employeecontroller")
 module.exports = router;
+const mongoose = require("mongoose");
+const { route } = require("express/lib/application");
+const {body,validationResult}=require("express-validator")
 
-const language = [
-    { id: 1, name: "c" },
-    { id: 2, name: "c++" },
-    { id: 3, name: "Javascript" },
-    { id: 4, name: "Python" },
-  ];
-router.get("", (req, res) => {
-    res.send("welcome");
-  });
 
-router.get("/api", (req, res) => {
-  res.send("hello world");
-});
+// const language = [
+//     { id: 1, name: "c" },
+//     { id: 2, name: "c++" },
+//     { id: 3, name: "Javascript" },
+//     { id: 4, name: "Python" },
+//   ];
+// router.get("", (req, res) => {
+//     res.send("welcome");
+//   });
 
-router.get("/api/language", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+// router.get("/api",api );
 
-router.post("/api/language", (req, res) => {
-  if (!req.body.name || req.body.name.length < 4) {
-    res.status(400).send("Bad request");
-    return;
-  }
-  const lang = {
-    id: language.length + 1,
-    name: req.body.name,
-  };
-  language.push(lang);
-  res.send(lang);
-});
+// router.get("/api/language", (req, res) => {
+//   res.sendFile(path.join(__dirname, "route.html"));
+// });
 
-router.put("/api/language/:id", (req, res) => {
-  const lang = language.find((c) => c.id === parseInt(req.params.id));
-  if (!lang) res.status(404).send("language with given id  not found");
-  res.send(lang);
+router.post("/addemployee",[
+  body("name").isString().withMessage("name must be valid")
+  ,body("desg").isString().withMessage("desg must be valid")
+  ,body("age").isNumeric().withMessage("age should be valid")
+],addemployee);
 
-  if (!req.body.name || req.body.name.length < 4) {
-    res.status(400).send("Bad request");
-    return;
-  }
-  lang.name = req.body.name;
-  res.send(course);
-});
+router.get("/getemployee",getemployee);
 
-router.delete("/api/language/:id", (req, res) => {
-  const lang = language.find((c) => c.id === parseInt(req.params.id));
-  if (!lang) res.status(404).send("language with given id  not found");
-  res.send(lang);
+router.delete("/removeemployee",removeemployee);
 
-  const index = language.indexOf(lang);
-  language.splice(index, 1);
-  res.send(course);
-});
+router.put("/updateemployee", [
+  body("name").isString().withMessage("name must be valid")
+  ,body("desg").isString().withMessage("desg must be valid")
+  ,body("age").isNumeric().withMessage("age must be valid")
+],updateemployee);
 
-router.get("/api/language/:id", (req, res) => {
-  const lang = language.find((c) => c.id === parseInt(req.params.id));
-  if (!lang) res.status(404).send("language with given id  not found");
-  res.send(lang);
-});
+// router.delete("/api/language/:id", (req, res) => {
+//   const lang = language.find((c) => c.id === parseInt(req.params.id));
+//   if (!lang) res.status(404).send("language with given id  not found");
+//   res.send(lang);
+
+//   const index = language.indexOf(lang);
+//   language.splice(index, 1);
+//   res.send(course);
+// });
+
+// router.get("/api/language/:id", (req, res) => {
+//   const lang = language.find((c) => c.id === parseInt(req.params.id));
+//   if (!lang) res.status(404).send("language with given id  not found");
+//   res.send(lang);
+// });
