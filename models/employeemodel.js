@@ -6,7 +6,7 @@ const employeeschma = new mongoose.Schema(
         name:{
             type:String
         },
-        desg:{
+        lang:{
             type:String
         },
         age:{

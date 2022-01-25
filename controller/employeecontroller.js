@@ -1,43 +1,31 @@
 const employee =require("../models/employeemodel")
+const helper =require("../helper/helper")
+const service =require("../sevices/service")
 
-const addemployee= async(req, res) => {
-    const {name,desg,age} = req.body;
-    const new1 = employee.create({
-        name,desg,age
-    }).then((new1)=>{
-        res.json(new1)
-    }).catch((error)=>{
-        res.json({error:error})
-    })
+//adding employeedata from database
+const addEmployee= async(req, res) => {
+    const {name,lang,age} = req.body;
+    service.add(name,lang,age,req,res);
    }
 
-const getemployee=async(req,res)=>{
-    const data = employee.find({}).then((data)=>{
-        res.json(data);
-    }).catch((error)=>{
-        res.json({error:error})
-    })
+// getting employeedata from database 
+const getEmployee=async(req,res)=>{
+   service.get(req,res);
 }
 
-const updateemployee=async(req,res)=>{
-    const {name,desg,age} = req.body;
-    const data =employee.findOneAndUpdate({"name":name},{"name":name,"desg":desg,"age":age}).then((data)=>{
-        res.json(data);
-    }).catch((error)=>{
-        res.json({error:error})
-    })
+//updating employeedata from database
+const updateEmployee=async(req,res)=>{
+    const {name,lang,age} = req.body;
+    service.update(name,lang,age,req,res);
 }
 
-const removeemployee = async(req,res)=>{
+//removing employeedata from database
+const removeEmployee = async(req,res)=>{
     const {name} =req.body;
-    const data =employee.findOneAndDelete({"name":name}).then((data)=>{
-        res.json(data);
-    }).catch((error)=>{
-        res.json({error:error})
-    })
+    service.remove(req,res);
 }
 
-module.exports={addemployee,getemployee,removeemployee,updateemployee}
+module.exports={addEmployee,getEmployee,removeEmployee,updateEmployee}
 
 
 
