@@ -17,7 +17,7 @@ const { validation, loginValidation,authToken } = require("../validator/validati
 
 router.post("/employee/add", validation, addEmployee);
 
-router.get("/employee",authToken ,getEmployee);
+router.get("/employee",authToken,getEmployee);
 
 router.delete("/employee/remove", removeEmployee);
 

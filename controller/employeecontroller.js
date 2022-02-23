@@ -1,4 +1,4 @@
-const employee = require("../models/employeemodel");
+const employee = require("../Models/employeemodel");
 const service = require("../sevices/service");
 const { validationResult } = require("express-validator");
 const logger = require("../logger/logger");

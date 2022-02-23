@@ -1,7 +1,9 @@
 const logger = require("../logger/logger");
-const employee = require("../models/employeemodel");
+//const employee = require("../Models/employeemodel");
+const models= require("../models")
 const {genrateToken}= require("../auth/generateToken")
 
+const employee = models.student;
 //service function for adding data to database
 const add = async (name, lang, age, req, res) => {
   const new1 = employee
@@ -37,7 +39,7 @@ const get = async (req, res) => {
 //service function for updating data to database
 const update = async (name, lang, age, req, res) => {
   const data = employee
-    .findOneAndUpdate({ name: name }, { name: name, lang: lang, age: age })
+    .update({ name: name, lang: lang, age: age },{where:{ name: name} } )
     .then((data) => {
       logger.info(`updated employee data of  :${name}`)
       res.json(data).status(200);
@@ -51,14 +53,14 @@ const update = async (name, lang, age, req, res) => {
 //service function for removing data to database
 const remove = async (name, req, res) => {
   const data = employee
-    .findOneAndDelete({ name: name })
+    .destroy({where:{ name: name }})
     .then((data) => {
       logger.info(`removed employee data of :${name}`)
       res.json(data).status(200);
     })
     .catch((error) => {
       logger.error(`error occured while adding data :${error}`)
-      res.json({ error: error }).status(400);
+       res.json({ error: error }).status(400);
     });
 };
 
